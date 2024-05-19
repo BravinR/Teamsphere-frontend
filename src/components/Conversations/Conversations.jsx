@@ -1,11 +1,9 @@
 import React from 'react'
 import useGetConversations from "../../hooks/useGetConversations";
 import Conversation from "./Conversation";
-import useUserProfile from '../../hooks/useGetProfile';
 
 export default function Conversations() {
     const { loading, conversations } = useGetConversations();
-    const { profile, userloading } = useUserProfile();
 
     if (loading) {
         return <div>Loading...</div>;

@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useAuthContext } from "../context/AuthContext";
+import useProfile from '../zustand/useProfile';
 
 
 const useUserProfile = () => {
-  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { authUser } = useAuthContext(); 
+  const { setProfile } = useProfile();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -32,8 +33,8 @@ const useUserProfile = () => {
     if (authUser) {
       fetchProfile();
     }
-  }, [authUser]); // Include authUser in the dependency array
-  return { profile, loading, error };
+  }, [authUser,setProfile]); // Include authUser in the dependency array
+  return { loading, error };
 };
 
 export default useUserProfile;

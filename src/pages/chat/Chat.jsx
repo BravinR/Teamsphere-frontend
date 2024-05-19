@@ -4,8 +4,12 @@ import LogoutButton from "../../components/LogoutButton";
 import Conversations from "../../components/Conversations/Conversations";
 import MessageContainer from "../../components/Messages/MessageContainer";
 import SearchForm from "../../components/SearchForm";
+import useProfile from "../../zustand/useProfile";
+import useUserProfile from "../../hooks/useGetProfile";
 
 export default function Chat() {
+  const { profile, userloading } = useUserProfile();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const handleSubmitSearch = async (event) => {

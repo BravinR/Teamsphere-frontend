@@ -1,12 +1,13 @@
 import React from "react";
-import useUserProfile from "../../hooks/useGetProfile";
 import useConversation from "../../zustand/useConversation";
 import ChatBubble from "../ChatBubble";
 import ChatMessageSender from "../ChatMessageSender";
 import { extractTime } from "../../utils/extractTime";
+import useProfile from "../../zustand/useProfile";
 
 const Message = ({ messageData }) => {
-    const { profile, userloading } = useUserProfile();
+    
+    const { profile} = useProfile();
     const { selectedConversation } = useConversation();
     const fromMe = messageData?.senderId === profile?.id;
     const formattedTime = extractTime(messageData?.timeStamp);
