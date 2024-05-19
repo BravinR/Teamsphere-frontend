@@ -1,19 +1,8 @@
 import React from "react";
-import { extractTime } from "../utils/extractTime";
-import useUserProfile from "../hooks/useGetProfile";
-import useConversation from "../zustand/useConversation";
 
-const ChatBubble = ({ messageData }) => {
-  const { profile, userloading } = useUserProfile();
-  const { selectedConversation } = useConversation();
-  const fromMe = messageData.senderId === profile?.id;
-  const formattedTime = extractTime(messageData.timeStamp);
-  const chatClassName = fromMe ? "justify-end " : "";
-  const profilePic = fromMe ? profile.profile_picture : selectedConversation?.user.profile_picture;
-  const bubbleBgColor = fromMe ? "bg-blue-500" : "";
-  const sender = fromMe ? profile.username : selectedConversation?.user.username;
+const ChatBubble = ({ messageData, profilePic, sender, formattedTime }) => {
   return (
-    <div className={`flex items-start m-4 ${chatClassName}`}>
+    <div className="flex items-start m-4">
       <img className="w-8 h-8 rounded-full m-2" src={profilePic} alt="Jese image" />
       <div className="flex flex-col gap-1 w-full max-w-[320px]">
         <div className="flex items-center space-x-4 rtl:space-x-reverse">

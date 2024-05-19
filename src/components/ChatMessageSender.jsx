@@ -1,12 +1,12 @@
 import React from "react";
 
-const ChatMessageSender = ({ messageData }) => {
+const ChatMessageSender = ({ messageData, profilePic, sender, formattedTime }) => {
     return (
-    <div className="flex items-start justify-end mx-4 mt-8">
+    <div className="flex items-start justify-end">
       <div className="flex flex-col gap-1 w-full max-w-[320px]">
         <div className="flex items-center flex-row justify-end">
-          <span className="text-sm font-semibold text-gray-900 dark:text-white">{messageData.user.username}</span>
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ml-4">{messageData.timeStamp}</span>
+          <span className="text-sm font-semibold text-gray-900 dark:text-white">{sender}</span>
+          <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ml-4">{formattedTime}</span>
         </div>
         <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-s-xl rounded-ee-xl dark:bg-gray-700">
           <p className="text-sm font-normal text-gray-900 dark:text-white">{messageData.content}</p>
@@ -26,7 +26,7 @@ const ChatMessageSender = ({ messageData }) => {
           <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
         </svg>
       </button>
-      <img className="w-8 h-8 rounded-full" src="images/BeardMan.jpg" alt="Jese image" />
+      <img className="w-8 h-8 rounded-full" src={profilePic} alt="Jese image" />
       <div id="dropdownDots" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600">
         <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
           <li>
