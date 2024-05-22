@@ -1,9 +1,12 @@
 import React from 'react'
 import useGetConversations from "../../hooks/useGetConversations";
 import Conversation from "./Conversation";
+import useProfile from '../../zustand/useProfile';
 
 export default function Conversations() {
     const { loading, conversations } = useGetConversations();
+
+    const { profile} = useProfile();
 
     if (loading) {
         return <div>Loading...</div>;
@@ -16,14 +19,17 @@ export default function Conversations() {
                     {conversation.chat_name ? (
                         <h2>Conversation Name: {conversation.chat_name}</h2>
                     ) : (
-                        <div >
-                            {conversation.users.map(user => (
-                                <Conversation
-                                    key={user.id}
-                                    user={user}
-                                    chatId={conversation.id}
-                                />
-                            ))}
+                        <div>
+                            {conversation.users
+                                .filter(user => user.id !== profile.id)
+                                .map(filteredUser => (
+                                    <Conversation
+                                        key={filteredUser.id}
+                                        user={filteredUser}
+                                        chatId={conversation.id}
+                                    />
+                                ))
+                            }
                         </div>
                     )}
                 </div>

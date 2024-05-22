@@ -38,6 +38,7 @@ function NavigationMenu() {
         ))}
         <div className="border-t border-gray-400 w-full h-0"></div>
       </div>
+      <LogoutButton />
       {/* Settings Section */}
       <div className="mb-4">
         <a href={navItems[6].href} className="flex flex-col items-center">

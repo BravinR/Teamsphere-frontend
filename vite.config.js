@@ -8,10 +8,10 @@ export default defineConfig({
     port: 3000,
     proxy: {
 			"/auth": {
-				target: "http://localhost:5454",
+				target: "https://api.teamsphere.co/",
 			},
 			"/api": {
-				target: "http://localhost:5454",
+				target: "https://api.teamsphere.co/",
 			},
 		},
 
