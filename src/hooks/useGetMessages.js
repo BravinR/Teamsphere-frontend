@@ -12,7 +12,7 @@ const useGetMessages = () => {
 		const getMessages = async () => {
 			setLoading(true);
 			try {
-                const response = await fetch(`/api/message/chat/${selectedConversation.chatId}`, {
+                const response = await fetch(`${import.meta.env.VITE_API_HOST}/api/message/chat/${selectedConversation.chatId}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

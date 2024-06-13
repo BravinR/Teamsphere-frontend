@@ -11,7 +11,7 @@ const useSendMessage = () => {
 	const sendMessage = async (message) => {
 		setLoading(true);
 		try {
-			const res = await fetch("/api/message/create", {
+			const res = await fetch(`${import.meta.env.VITE_API_HOST}/api/message/create`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

@@ -10,8 +10,9 @@ const useLogin = () => {
 		const success = handleInputErrors(email, password);
 		if (!success) return;
 		setLoading(true);
+
 		try {
-			const res = await fetch("/auth/login", {
+			const res = await fetch(`${import.meta.env.VITE_API_HOST}/auth/login`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ email, password }),

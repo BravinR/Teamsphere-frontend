@@ -10,7 +10,7 @@ const useGetConversations = () => {
 		const getConversations = async () => {
 			setLoading(true);
 			try {
-                const response = await fetch('/api/chat/user', {
+                const response = await fetch(`${import.meta.env.VITE_API_HOST}/api/chat/user`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

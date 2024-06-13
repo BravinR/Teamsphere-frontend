@@ -17,7 +17,7 @@ const useSignup = () => {
 			Object.keys(formData).forEach(key => {
 				authData.append(key, formData[key]);
 			});
-            const request = await fetch(`/auth/signup`, {
+            const request = await fetch(`${import.meta.env.VITE_API_HOST}/auth/signup`, {
                 method: 'POST',
                 body: authData,
                 cache: 'no-store',
