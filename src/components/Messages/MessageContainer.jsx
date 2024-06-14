@@ -8,8 +8,6 @@ import Messages from './Messages';
 export default function MessageContainer() {
     const { selectedConversation, setSelectedConversation } = useConversation();
     useEffect(() => {
-
-		console.log("selected conversation CleanUp UseEffect")
 		// cleanup function (unmounts)
 		return () => setSelectedConversation(null);
 	}, [setSelectedConversation]);

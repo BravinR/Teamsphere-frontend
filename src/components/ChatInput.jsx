@@ -1,17 +1,23 @@
 import React, {useState} from 'react';
 import useSendMessage from "../hooks/useSendMessage";
 
-const ChatInput = ({ chatData,onMessageSubmit }) => {
+const ChatInput = () => {
     const [message, setMessage] = useState('');
     const { loading, sendMessage } = useSendMessage();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!message) return;
-        console.log(message);
         await sendMessage(message);
         setMessage("");
     }
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSubmit(e);
+        }
+    };
 
     return (
     <div className=''>
@@ -61,6 +67,7 @@ const ChatInput = ({ chatData,onMessageSubmit }) => {
                       placeholder="Your message..."
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
+                        onKeyDown={handleKeyDown}
                   ></textarea>
                   <button
                       type="submit"

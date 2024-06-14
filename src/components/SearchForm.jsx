@@ -18,8 +18,8 @@ const SearchForm = ({
   const { profile } = useProfile();
 
   useEffect(() => {
-    console.log("Search querry useEffect")
     if (searchQuery.length < 1) {
+      setSearchResults([]);
       return;
     }
     const handler = setTimeout(() => {
@@ -37,7 +37,7 @@ const SearchForm = ({
   };
 
   return (
-    <div className="w-full ">
+    <div className="w-full relative">
       <form className="max-w-md mx-auto">
         <label
           htmlFor="default-search"
@@ -67,7 +67,7 @@ const SearchForm = ({
           </button>
         </div>
       </form>
-      <div>
+      <div className="absolute w-full flex flex-col space-y-2 border-none rounded-md bg-slate-800 py-2">
         {searchResults && searchResults.length > 0 ? (
           searchResults.filter(user => user.id !== profile.id).map((filterUser) => (
             <UserCard
@@ -95,9 +95,7 @@ function UserCard({ username, profileImageUrl, user_id, profile_id, clearSearchR
   const { creatingChat, chatData, handleCreateChat } = useCreateChat();
 
   useEffect(() => {
-    console.log("useCard UseEffect")
     if (chatData) {
-      console.log("This one is getting called no problem")
       const filteredUser = chatData.users.filter(user => user.id !== profile_id);
       setSelectedConversation({ chatId: chatData.id, user: filteredUser[0]});
       clearSearchResults();
@@ -110,8 +108,8 @@ function UserCard({ username, profileImageUrl, user_id, profile_id, clearSearchR
 
   return (
     <div className="">
-      <div className="mt-2 flex items-center justify-center px-2 bg-white rounded-xl shadow-lg space-y-0 space-x-6">
-        <img className='rounded-2xl w-20' src={profileImageUrl} alt='user avatar' />
+      <div className="flex items-center justify-center px-2 bg-chat-gray rounded-xl shadow-lg space-y-0 space-x-6">
+        <img className='rounded-2xl w-14' src={profileImageUrl} alt='user avatar' />
         <div className="flex items-center text-center">
           <div className="space-y-0.5">
             <p className="px-4 text-sm text-black font-semibold">{username}</p>

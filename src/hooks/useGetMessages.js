@@ -9,7 +9,6 @@ const useGetMessages = () => {
     const { authUser } = useAuthContext(); 
 
 	useEffect(() => {
-		console.log("useGetMessages UseEffect")
 		const getMessages = async () => {
 			setLoading(true);
 			try {

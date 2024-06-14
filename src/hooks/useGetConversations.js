@@ -7,7 +7,6 @@ const useGetConversations = () => {
 	const [conversations, setConversations] = useState([]);
     const { authUser } = useAuthContext(); 
 	useEffect(() => {
-		console.log("useGetConversations UseEffect")
 		const getConversations = async () => {
 			setLoading(true);
 			try {
