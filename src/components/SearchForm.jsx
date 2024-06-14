@@ -1,17 +1,44 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import SearchSvg from "./../components/svg/SearchSvg";
-import UserCard from "./../components/UserCard";
+import useConversation from "../zustand/useConversation";
+import useGetConversations from "../hooks/useGetConversations";
+import useSearch from "../hooks/useSearch";
+import useSearchResults from "../zustand/useSearch";
+import toast from "react-hot-toast";
+import useCreateChat from "../hooks/useCreateChat";
+import useProfile from "../zustand/useProfile";
 
 const SearchForm = ({
-  handleSubmitSearch,
-  searchQuery,
-  setSearchQuery,
-  searchResults,
-  handleCreateChat,
 }) => {
+
+	const [searchQuery, setSearchQuery] = useState("");
+  const { searchResults, setSearchResults } = useSearchResults();
+  const { search, loading } = useSearch();
+  const { creatingChat, chatData, handleCreateChat } = useCreateChat();
+  const { profile } = useProfile();
+
+  useEffect(() => {
+    if (searchQuery.length < 1) {
+      setSearchResults([]);
+      return;
+    }
+    const handler = setTimeout(() => {
+      search(searchQuery);
+    }, 1000); // 1 second debounce
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchQuery]);
+
+  const clearSearchResults = () => {
+    setSearchResults([]);
+    setSearchQuery("");
+  };
+
   return (
-    <div className="w-full ">
-      <form className="max-w-md mx-auto" onSubmit={handleSubmitSearch}>
+    <div className="w-full relative">
+      <form className="max-w-md mx-auto">
         <label
           htmlFor="default-search"
           className="mb-2 text-sm font-medium sr-only text-white"
@@ -40,19 +67,20 @@ const SearchForm = ({
           </button>
         </div>
       </form>
-      <div>
-        {searchResults.length > 0 ? (
-          searchResults.map((user) => (
+      <div className="absolute w-full flex flex-col space-y-2 border-none rounded-md bg-slate-800 py-2">
+        {searchResults && searchResults.length > 0 ? (
+          searchResults.filter(user => user.id !== profile.id).map((filterUser) => (
             <UserCard
-              key={user.id}
-              username={user.username}
-              profileImageUrl={user.profile_picture}
-              user_id={user.id}
-              handleCreateChat={handleCreateChat}
+              key={filterUser.id}
+              username={filterUser.username}
+              profileImageUrl={filterUser.profile_picture}
+              user_id={filterUser.id}
+              profile_id={profile.id}
+              clearSearchResults={clearSearchResults}
             />
           ))
         ) : (
-          <p></p>
+          <p className="hidden"></p>
         )}
       </div>
     </div>
@@ -60,3 +88,48 @@ const SearchForm = ({
 };
 
 export default SearchForm;
+
+
+function UserCard({ username, profileImageUrl, user_id, profile_id, clearSearchResults }) {
+  const { selectedConversation, setSelectedConversation } = useConversation();
+  const { creatingChat, chatData, handleCreateChat } = useCreateChat();
+
+  useEffect(() => {
+    if (chatData) {
+      const filteredUser = chatData.users.filter(user => user.id !== profile_id);
+      setSelectedConversation({ chatId: chatData.id, user: filteredUser[0]});
+      clearSearchResults();
+    }
+  }, [chatData, profile_id, setSelectedConversation]);
+
+  const handleClick = async (user_id) => {
+    await handleCreateChat(user_id);
+  };
+
+  return (
+    <div className="">
+      <div className="flex items-center justify-center px-2 bg-chat-gray rounded-xl shadow-lg space-y-0 space-x-6">
+        <img className='rounded-2xl w-14' src={profileImageUrl} alt='user avatar' />
+        <div className="flex items-center text-center">
+          <div className="space-y-0.5">
+            <p className="px-4 text-sm text-black font-semibold">{username}</p>
+          </div>
+          <button
+            onClick={() => handleClick(user_id)}
+            className={`px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border ${creatingChat ? 'bg-gray-300' : 'border-purple-200'
+              }`}
+            disabled={creatingChat}
+          >
+            {creatingChat ?
+              <div className="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-blue-600 rounded-full" role="status" aria-label="loading">
+                <span className="sr-only">Loading...</span>
+              </div>
+              :
+              'Message'
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};

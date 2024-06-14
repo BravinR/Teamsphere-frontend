@@ -3,7 +3,7 @@ const Conversation = ({ chatId, user }) => {
 	const { selectedConversation, setSelectedConversation } = useConversation();
 
 	const isSelected = selectedConversation?.user.id === user.id;
-
+	
 	return (
 		<div
 			className={`flex max-w-sm py-4 px-2 hover:bg-gray-700 hover:rounded-3xl
