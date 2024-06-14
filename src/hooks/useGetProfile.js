@@ -10,6 +10,7 @@ const useUserProfile = () => {
   const { setProfile } = useProfile();
 
   useEffect(() => {
+    console.log("UseUserProfile UseEffect")
     const fetchProfile = async () => {
       try {
 

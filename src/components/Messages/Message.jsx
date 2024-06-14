@@ -9,7 +9,7 @@ const Message = ({ messageData }) => {
     
     const { profile} = useProfile();
     const { selectedConversation } = useConversation();
-    const fromMe = messageData?.senderId === profile?.id;
+    const fromMe = messageData?.user.id === profile?.id;
     const formattedTime = extractTime(messageData?.timeStamp);
     const profilePic = fromMe ? profile?.profile_picture : selectedConversation?.user.profile_picture;
     const sender = fromMe ? profile?.username : selectedConversation?.user.username;
