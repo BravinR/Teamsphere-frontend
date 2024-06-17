@@ -2,6 +2,8 @@
 
 Welcome to our Chat Application! This chat application is built with Spring Boot for the backend and Vite for the frontend. It features authentication using JWT, a MySQL database, and Cloudflare Images for storing profile images. Currently, it supports one-on-one chats, with plans to add group chat functionality using web sockets with the STOMP protocol and RabbitMQ. The backend is hosted on Digital Ocean, and Docker Compose is used for building app images and deployment.
 
+<img width="1711" alt="Screenshot 2024-06-03 at 3 11 43 PM" src="https://github.com/BravinR/Teamsphere-frontend/assets/53496147/94cab3ae-3f23-495d-92f0-f5215acb6445">
+
 ## Table of Contents
 
 1. [Features](#features)
