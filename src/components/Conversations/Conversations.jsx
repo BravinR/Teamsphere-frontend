@@ -16,8 +16,8 @@ export default function Conversations() {
         <div className='hidden bg-chat-gray rounded-2xl  md:flex md:flex-col'>
             {conversations.map(conversation => (
                 <div key={conversation.id} className=''>
-                    {conversation.chat_name ? (
-                        <h2>Conversation Name: {conversation.chat_name}</h2>
+                    {conversation.chatName ? (
+                        <h2>Conversation Name: {conversation.chatName}</h2>
                     ) : (
                         <div>
                             {conversation.users

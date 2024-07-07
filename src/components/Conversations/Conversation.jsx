@@ -11,7 +11,7 @@ const Conversation = ({ chatId, user }) => {
 			`}
 			onClick={() => setSelectedConversation({chatId, user})}
 		>
-			<img className='rounded-2xl w-12' src={user.profile_picture} alt='user avatar' />
+			<img className='rounded-2xl w-12' src={user.profilePicture} alt='user avatar' />
 			<div>
 				<h1 className="mb-2 mx-4 text-sm font-bold tracking-tight text-white">{user.username}</h1>
 				<p className=" mx-4 text-sm text-gray-400">Some random last message</p>

@@ -73,7 +73,7 @@ const SearchForm = ({
             <UserCard
               key={filterUser.id}
               username={filterUser.username}
-              profileImageUrl={filterUser.profile_picture}
+              profileImageUrl={filterUser.profilePicture}
               user_id={filterUser.id}
               profile_id={profile.id}
               clearSearchResults={clearSearchResults}
