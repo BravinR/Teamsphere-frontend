@@ -1,16 +1,23 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useLogin from "../../hooks/useLogin";
+import useGoogleLogin from "../../hooks/useGoogleLogin";
+import { GoogleLogin } from '@react-oauth/google';
+import { useAuthContext } from "../../context/AuthContext";
 
 export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const { loading, login } = useLogin();
+  const { loading: googleLoading, googleLogin } = useGoogleLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     await login(email, password);
+  };
+
+  const handleGoogleLoginSuccess = async (credentialResponse) => {
+    await googleLogin(credentialResponse.credential);
   };
 
   return (
@@ -101,10 +108,23 @@ export default function Signin() {
                 </Link>
               </div>
             </form>
+            <div className="flex items-center my-4">
+              <hr className="flex-grow border-gray-300 dark:border-gray-600" />
+              <span className="px-3 text-gray-500 dark:text-gray-400">or</span>
+              <hr className="flex-grow border-gray-300 dark:border-gray-600" />
+            </div>
+            <div className="flex justify-center">
+              <GoogleLogin
+                onSuccess={handleGoogleLoginSuccess}
+                onError={() => {
+                  toast.error('Google login failed');
+                }}
+                disabled={googleLoading}
+              />
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
 }
-

@@ -6,19 +6,22 @@ import Chat from './pages/chat/Chat'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useAuthContext } from "./context/AuthContext";
 import { Toaster } from "react-hot-toast";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
   const { authUser } = useAuthContext(); 
   return (
-    <div>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={authUser ? <Navigate to='/chat' /> : <Login />} />
-        <Route path='/signup' element={authUser ? <Navigate to='/chat' /> : <Signup />} />
-        <Route path='/chat' element={authUser ? <Chat /> : <Navigate to='/login' />} />
-      </Routes>
-      <Toaster />
-    </div>
+    <GoogleOAuthProvider clientId="700457920933-hsa34rsr6b2poo5jk84fnai3rev6g7cu.apps.googleusercontent.com">
+      <div>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={authUser ? <Navigate to='/chat' /> : <Login />} />
+          <Route path='/signup' element={authUser ? <Navigate to='/chat' /> : <Signup />} />
+          <Route path='/chat' element={authUser ? <Chat /> : <Navigate to='/login' />} />
+        </Routes>
+        <Toaster />
+      </div>
+    </GoogleOAuthProvider>
   )
 }
 
