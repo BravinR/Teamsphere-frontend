@@ -2,11 +2,13 @@ import { useState } from "react";
 import useConversation from "../zustand/useConversation";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
+import useGetConversations from "./useGetConversations";
 
 const useSendMessage = () => {
 	const [loading, setLoading] = useState(false);
 	const { messages, setMessages, selectedConversation } = useConversation();
-    const { authUser } = useAuthContext(); 
+    const { authUser } = useAuthContext();
+    const { refreshConversations } = useGetConversations();
 
 	const sendMessage = async (message) => {
 		setLoading(true);
@@ -27,6 +29,7 @@ const useSendMessage = () => {
 			if (data.error) throw new Error(data.error);
 
 			setMessages([...messages, data]);
+			// We're not calling refreshConversations here anymore
 		} catch (error) {
 			toast.error(error.message);
 		} finally {
@@ -36,4 +39,5 @@ const useSendMessage = () => {
 
 	return { sendMessage, loading };
 };
+
 export default useSendMessage;

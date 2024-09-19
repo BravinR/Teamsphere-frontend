@@ -67,13 +67,13 @@ const SearchForm = ({
           </button>
         </div>
       </form>
-      <div className="absolute w-full flex flex-col space-y-2 border-none rounded-md bg-slate-800 py-2">
+      <div className="w-full flex flex-col space-y-2 border-none rounded-md bg-slate-800 py-2">
         {searchResults && searchResults.length > 0 ? (
           searchResults.filter(user => user.id !== profile.id).map((filterUser) => (
             <UserCard
               key={filterUser.id}
               username={filterUser.username}
-              profileImageUrl={filterUser.profile_picture}
+              profileImageUrl={filterUser.profilePicture}
               user_id={filterUser.id}
               profile_id={profile.id}
               clearSearchResults={clearSearchResults}

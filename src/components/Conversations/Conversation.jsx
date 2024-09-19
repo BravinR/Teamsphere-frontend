@@ -1,22 +1,37 @@
 import useConversation from "../../zustand/useConversation";
-const Conversation = ({ chatId, user }) => {
+
+const Conversation = ({ conversation }) => {
 	const { selectedConversation, setSelectedConversation } = useConversation();
 
-	const isSelected = selectedConversation?.user.id === user.id;
+	const isSelected = selectedConversation?.id === conversation.id;
 	
+	const handleClick = () => {
+		setSelectedConversation({
+			chatId: conversation.id,
+			user: {
+				id: conversation.createdBy,
+				username: conversation.chatName,
+				profilePicture: conversation.chatImage
+			}
+		});
+	};
+
 	return (
 		<div
 			className={`flex max-w-sm py-4 px-2 hover:bg-gray-700 hover:rounded-3xl
 		    ${isSelected ? "bg-gray-600 rounded-3xl" : ""}
 			`}
-			onClick={() => setSelectedConversation({chatId, user})}
+			onClick={handleClick}
 		>
-			<img className='rounded-2xl w-12' src={user.profile_picture} alt='user avatar' />
+			<img className='rounded-2xl w-12' src={conversation.chatImage} alt='chat avatar' />
 			<div>
-				<h1 className="mb-2 mx-4 text-sm font-bold tracking-tight text-white">{user.username}</h1>
-				<p className=" mx-4 text-sm text-gray-400">Some random last message</p>
+				<h1 className="mb-2 mx-4 text-sm font-bold tracking-tight text-white">{conversation.chatName}</h1>
+				<p className="mx-4 text-sm text-gray-400">
+					{conversation.lastMessage ? conversation.lastMessage.content : "No messages yet"}
+				</p>
 			</div>
 		</div>
 	);
 };
+
 export default Conversation;

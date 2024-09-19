@@ -6,15 +6,23 @@ const useGoogleLogin = () => {
     const [loading, setLoading] = useState(false);
     const { setAuthUser } = useAuthContext();
 
-    const googleLogin = async (credential) => {
+    const googleLogin = async (access_token) => {
         setLoading(true);
         try {
+            // First, fetch user info from Google
+            const googleResponse = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${access_token}`);
+            if (!googleResponse.ok) {
+                throw new Error('Failed to fetch user info from Google');
+            }
+            const googleUserInfo = await googleResponse.json();
+
+            // Then, send this info to your backend
             const response = await fetch(`${import.meta.env.VITE_API_HOST}/auth/google`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ credential }),
+                body: JSON.stringify({ googleUserInfo}),
             });
 
             if (!response.ok) {

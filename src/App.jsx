@@ -11,11 +11,12 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 function App() {
   const { authUser } = useAuthContext(); 
   return (
-    <GoogleOAuthProvider clientId="700457920933-hsa34rsr6b2poo5jk84fnai3rev6g7cu.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID}>
       <div>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={authUser ? <Navigate to='/chat' /> : <Login />} />
+          <Route path='/signin' element={authUser ? <Navigate to='/chat' /> : <Login />} />
           <Route path='/signup' element={authUser ? <Navigate to='/chat' /> : <Signup />} />
           <Route path='/chat' element={authUser ? <Chat /> : <Navigate to='/login' />} />
         </Routes>
