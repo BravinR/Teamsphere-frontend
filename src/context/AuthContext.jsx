@@ -15,7 +15,6 @@ export const AuthContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		const checkToken = async () => {
-			console.log("Checking token:", authUser);
 			if (authUser && authUser.jwt) {
 				try {
 					const response = await fetch(`${import.meta.env.VITE_API_HOST}/auth/verify`, {

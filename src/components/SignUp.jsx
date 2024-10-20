@@ -11,7 +11,6 @@ export default function SignUp({ onChange, formData, onStateChange }) {
     const handleGoogleSignUp = useGoogleLoginReact({
         onSuccess: async (credentialResponse) => {
             try {
-                console.log("Google OAuth Response:", credentialResponse);
                 await googleLogin(credentialResponse.access_token);
                 toast.success("Google sign up successful!");
             } catch (error) {

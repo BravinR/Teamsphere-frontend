@@ -8,10 +8,10 @@ import useProfile from "../../zustand/useProfile";
 const Message = ({ messageData }) => {
     const { profile } = useProfile();
     const { selectedConversation } = useConversation();
-    const fromMe = messageData.userId === profile?.id;
+    const fromMe = messageData.userId === profile.id;
     const formattedTime = extractTime(messageData.timeStamp);
-    const profilePic = fromMe ? profile?.profilePicture : selectedConversation?.user.profilePicture;
-    const sender = fromMe ? profile?.username : selectedConversation?.user.username;
+    const profilePic = fromMe ? profile.profilePicture : selectedConversation?.chatImage;
+    const sender = fromMe ? profile.username : selectedConversation?.chatName;
 
     return (
         <>

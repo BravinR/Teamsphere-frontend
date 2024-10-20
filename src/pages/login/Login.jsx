@@ -21,7 +21,6 @@ export default function Login() {
   const handleGoogleLogin = useGoogleLoginReact({
     onSuccess: async (credentialResponse) => {
       try {
-        console.log("Google OAuth Response:", credentialResponse);
         // We now only pass the access_token to googleLogin
         await googleLogin(credentialResponse.access_token);
         toast.success("Google login successful!");

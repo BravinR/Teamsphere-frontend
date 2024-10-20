@@ -21,7 +21,6 @@ const useSendMessage = () => {
 				},
                 body: JSON.stringify({
                     chatId: selectedConversation.chatId,
-                    userId: selectedConversation.user.id,
                     content: message
                 })
 			});
@@ -29,7 +28,6 @@ const useSendMessage = () => {
 			if (data.error) throw new Error(data.error);
 
 			setMessages([...messages, data]);
-			// We're not calling refreshConversations here anymore
 		} catch (error) {
 			toast.error(error.message);
 		} finally {

@@ -23,7 +23,7 @@ export default function MessageContainer() {
 					{/* Header */}
 					<div className='bg-slate-500'>
 						<span className='label-text'>To:</span>{" "}
-						<span className='text-gray-900 font-bold'>{selectedConversation.users[0]}</span>
+						<span className='text-gray-900 font-bold'>{selectedConversation.chatName}</span>
 					</div>
                     <Messages messages={messages} loading={loading} />
 					<ChatInput />

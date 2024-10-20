@@ -6,13 +6,11 @@ const Conversation = ({ conversation }) => {
 	const isSelected = selectedConversation?.id === conversation.id;
 	
 	const handleClick = () => {
+		console.log(conversation);
 		setSelectedConversation({
 			chatId: conversation.id,
-			user: {
-				id: conversation.createdBy,
-				username: conversation.chatName,
-				profilePicture: conversation.chatImage
-			}
+			ChatName: conversation.ChatName,
+			chatImage: conversation.chatImage
 		});
 	};
 
