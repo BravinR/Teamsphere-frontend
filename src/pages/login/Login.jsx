@@ -1,17 +1,40 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useLogin from "../../hooks/useLogin";
+import useGoogleLogin from "../../hooks/useGoogleLogin";
+import { useGoogleLogin as useGoogleLoginReact } from '@react-oauth/google';
+import { useAuthContext } from "../../context/AuthContext";
+import toast from "react-hot-toast";
+import GoogleLogo from "../../components/svg/GoogleLogo";
 
-export default function Signin() {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const { loading, login } = useLogin();
+  const { loading: googleLoading, googleLogin } = useGoogleLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     await login(email, password);
   };
+
+  const handleGoogleLogin = useGoogleLoginReact({
+    onSuccess: async (credentialResponse) => {
+      try {
+        // We now only pass the access_token to googleLogin
+        await googleLogin(credentialResponse.access_token);
+        toast.success("Google login successful!");
+      } catch (error) {
+        console.error("Google login error:", error);
+        toast.error('Google login failed');
+      }
+    },
+    onError: (error) => {
+      console.error("Google login error:", error);
+      toast.error('Google login failed');
+    },
+    flow: 'implicit'
+  });
 
   return (
     <section className="flex flex-col justify-center bg-gray-50 dark:bg-gray-900 h-screen">
@@ -21,6 +44,21 @@ export default function Signin() {
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
               Sign in to Teamsphere
             </h2>
+            <div className="flex justify-center">
+              <button
+                onClick={() => handleGoogleLogin()}
+                disabled={googleLoading}
+                className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                <GoogleLogo className="w-5 h-5 mr-2" />
+                Continue With Google
+              </button>
+            </div>
+            <div className="flex items-center my-4">
+              <hr className="flex-grow border-gray-300 dark:border-gray-600" />
+              <span className="px-3 text-gray-500 dark:text-gray-400">or</span>
+              <hr className="flex-grow border-gray-300 dark:border-gray-600" />
+            </div>
             <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label
@@ -107,4 +145,3 @@ export default function Signin() {
     </section>
   );
 }
-

@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import useGetMessages from "../../hooks/useGetMessages";
-import ChatBubble from "../ChatBubble";
 import Message from "./Message";
 
 const Messages = () => {

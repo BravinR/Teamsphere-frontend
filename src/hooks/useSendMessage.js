@@ -2,11 +2,13 @@ import { useState } from "react";
 import useConversation from "../zustand/useConversation";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
+import useGetConversations from "./useGetConversations";
 
 const useSendMessage = () => {
 	const [loading, setLoading] = useState(false);
 	const { messages, setMessages, selectedConversation } = useConversation();
-    const { authUser } = useAuthContext(); 
+    const { authUser } = useAuthContext();
+    const { refreshConversations } = useGetConversations();
 
 	const sendMessage = async (message) => {
 		setLoading(true);
@@ -19,7 +21,6 @@ const useSendMessage = () => {
 				},
                 body: JSON.stringify({
                     chatId: selectedConversation.chatId,
-                    userId: selectedConversation.user.id,
                     content: message
                 })
 			});
@@ -36,4 +37,5 @@ const useSendMessage = () => {
 
 	return { sendMessage, loading };
 };
+
 export default useSendMessage;

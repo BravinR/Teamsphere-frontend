@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useAuthContext } from "../context/AuthContext";
 import toast from 'react-hot-toast';
 import useConversation from '../zustand/useConversation';
+import useGetConversations from './useGetConversations';
 
 const useCreateChat = () => {
   const { authUser } = useAuthContext(); 
   const [creatingChat, setCreatingChat] = useState(false);
   const [chatData, setChatData] = useState(null);
+  const { refreshConversations } = useGetConversations();
+  const setSelectedConversation = useConversation((state) => state.setSelectedConversation);
 
-  const handleCreateChat = async (user_id) => {
+  const handleCreateChat = useCallback(async (user_id) => {
     try {
       setCreatingChat(true);
 
@@ -22,8 +25,14 @@ const useCreateChat = () => {
       });
 
       if (response.ok) {
-        const chatData = await response.json();
-        setChatData(chatData);
+        const newChatData = await response.json();
+        setChatData(newChatData);
+        setSelectedConversation(newChatData);
+        
+        // Refresh the conversation list to include the new chat
+        refreshConversations();
+        
+        toast.success('Chat created successfully');
       } else {
         throw new Error('Failed to create chat');
       }
@@ -32,7 +41,7 @@ const useCreateChat = () => {
     } finally {
       setCreatingChat(false);
     }
-  };
+  }, [authUser.jwt, refreshConversations, setSelectedConversation]);
 
   return { creatingChat, chatData, handleCreateChat };
 };

@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react'
-import ChatBubble from "../ChatBubble";
 import useConversation from "../../zustand/useConversation";
 import { useAuthContext } from "../../context/AuthContext";
 import ChatInput from '../ChatInput';
 import Messages from './Messages';
+import useGetMessages from '../../hooks/useGetMessages';
 
 export default function MessageContainer() {
     const { selectedConversation, setSelectedConversation } = useConversation();
+    const { messages, loading } = useGetMessages();
+
     useEffect(() => {
 		// cleanup function (unmounts)
 		return () => setSelectedConversation(null);
 	}, [setSelectedConversation]);
+
 	return (
 		<div className='flex flex-col w-full md:w-3/5 bg-gray-900'>
 			{!selectedConversation ? (
@@ -20,10 +23,10 @@ export default function MessageContainer() {
 					{/* Header */}
 					<div className='bg-slate-500'>
 						<span className='label-text'>To:</span>{" "}
-						<span className='text-gray-900 font-bold'>{selectedConversation.user.username}</span>
+						<span className='text-gray-900 font-bold'>{selectedConversation.chatName}</span>
 					</div>
-                    <Messages/>
-					<ChatInput/>
+                    <Messages messages={messages} loading={loading} />
+					<ChatInput />
 				</>
 			)}
 		</div>

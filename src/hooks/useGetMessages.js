@@ -10,6 +10,8 @@ const useGetMessages = () => {
 
 	useEffect(() => {
 		const getMessages = async () => {
+			if (!selectedConversation?.chatId) return;
+			
 			setLoading(true);
 			try {
                 const response = await fetch(`${import.meta.env.VITE_API_HOST}/api/message/chat/${selectedConversation.chatId}`, {
@@ -19,8 +21,10 @@ const useGetMessages = () => {
                         'Authorization': `Bearer ${authUser.jwt}`
                     }
                 });
+				if (!response.ok) {
+					throw new Error('Failed to fetch messages');
+				}
 				const data = await response.json();
-				if (data.error) throw new Error(data.error);
 				setMessages(data);
 			} catch (error) {
 				toast.error(error.message);
@@ -29,9 +33,10 @@ const useGetMessages = () => {
 			}
 		};
 
-		if (selectedConversation?.chatId) getMessages();
-	}, [selectedConversation?.chatId, setMessages]);
+		getMessages();
+	}, [selectedConversation?.chatId, setMessages, authUser.jwt]);
 
 	return { messages, loading };
 };
+
 export default useGetMessages;
